@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBP-AV | Merge Sort</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd70066;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ffd700;
+    }
+    .content {
+      padding: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .left-info {
+      flex: 1;
+      min-width: 300px;
+    }
+    .left-info h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #ffd700;
+    }
+    .left-info p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+    .right-controls {
+      flex: 1;
+      min-width: 300px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .right-controls h2 {
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    .sort-order label {
+      display: block;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+    input#arrayInput {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ffd700;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .array-container {
+      margin-top: 30px;
+      height: 500px;
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .bar {
+      background-color: #ffd700;
+      border-radius: 4px;
+      transition: all 0.4s;
+    }
+    #explanation {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">  Home  </a>
+      <a href="http://127.0.0.1:5000/visualizer_try">  Visualizers  </a>
+      <a href="http://127.0.0.1:5000/ai_assist">  AI Assist  </a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <div class="left-info">
+      <h1>Merge Sort</h1>
+      <p><strong>Definition:</strong> Merge Sort is a divide and conquer sorting algorithm that: <br> 1. Divides the input array into two halves, <br> 2. Recursively sorts both halves, <br> 3. And then merges the sorted halves into one final sorted array.</p>
+      <p><strong>Importance:</strong> Efficient for large datasets with time complexity O(n log n) in worst, best, and average cases. Stable Sort – maintains the relative order of equal elements. Works well for external sorting and linked lists.</p>
+      <p><strong>Real-life use:</strong><br>
+        1. Sorting large files on disk<br>
+        2. Sorting linked lists<br>
+        3. Multi-threading operations<br>
+        4. SQL merge operations<br>
+        5. Git branch merging</p>
+
+      <br><br>
+      <p><strong>Algorithm (Pseudocode):</strong><br>
+<pre style="font-size: 14px; background: rgba(255,255,255,0.05); color: #ccc; padding: 10px; border-radius: 10px; overflow-x: auto;">
+function mergeSort(arr):
+    if length of arr ≤ 1:
+        return arr
+
+    mid = length of arr / 2
+    left = mergeSort(arr[0..mid])
+    right = mergeSort(arr[mid+1..end])
+
+    return merge(left, right)
+
+function merge(left, right):
+    result = []
+    while left and right are not empty:
+        if left[0] ≤ right[0]:
+            result.append(left[0])
+            remove left[0]
+        else:
+            result.append(right[0])
+            remove right[0]
+    append remaining elements of left and right to result
+    return result
+</pre>
+</p>
+
+<p><strong>Explanation:</strong><br>
+1. <strong>Divide</strong>: Recursively split the array into halves until each sub-array has one element.<br>
+2. <strong>Conquer</strong>: Sort each half by recursively calling mergeSort.<br>
+3. <strong>Merge</strong>: Combine the sorted halves back together into one sorted array.<br>
+This process ensures that smaller problems are solved first, and then merged, achieving efficient sorting.
+</p>
+    </div>
+
+    <div class="right-controls">
+      <h2>Merge Sort Visualizer</h2>
+      <div class="sort-order">
+        <label for="arrayInput">Enter numbers (comma-separated):</label>
+        <input type="text" id="arrayInput" placeholder="e.g., 5,3,8,4,2" />
+        <button onclick="startMergeSort()">Start Sorting</button>
+      </div>
+      <div class="array-container" id="barContainer"></div>
+      <div id="explanation"></div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 1,
+          dx: Math.random() - 0.5,
+          dy: Math.random() - 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.3)";
+        ctx.fill();
+      }
+      move();
+      connect();
+      requestAnimationFrame(draw);
+    }
+
+    function move() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+
+    function connect() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255,255,255,0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles(80);
+    });
+
+    resize();
+    createParticles(80);
+    draw();
+  </script>
+
+  <script>
+    const barContainer = document.getElementById("barContainer");
+    const explanationBox = document.getElementById("explanation");
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function createBars(arr) {
+      barContainer.innerHTML = "";
+      const maxVal = Math.max(...arr);
+      arr.forEach(val => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = (val / maxVal * 100) + "%";
+        bar.style.width = (100 / arr.length - 2) + "%";
+        bar.textContent = val;
+        bar.style.textAlign = "center";
+        bar.style.fontSize = "14px";
+        bar.style.color = "black";
+        barContainer.appendChild(bar);
+      });
+    }
+
+    async function merge(arr, l, m, r) {
+      const left = arr.slice(l, m + 1);
+      const right = arr.slice(m + 1, r + 1);
+      let i = 0, j = 0, k = l;
+      while (i < left.length && j < right.length) {
+        explanationBox.innerText = `Comparing ${left[i]} and ${right[j]}`;
+        await sleep(700);
+        if (left[i] <= right[j]) {
+          arr[k++] = left[i++];
+        } else {
+          arr[k++] = right[j++];
+        }
+        createBars(arr);
+      }
+      while (i < left.length) {
+        explanationBox.innerText = `Adding remaining ${left[i]} from left half`;
+        await sleep(700);
+        arr[k++] = left[i++];
+        createBars(arr);
+      }
+      while (j < right.length) {
+        explanationBox.innerText = `Adding remaining ${right[j]} from right half`;
+        await sleep(700);
+        arr[k++] = right[j++];
+        createBars(arr);
+      }
+      explanationBox.innerText = `Merged from index ${l} to ${r}`;
+      await sleep(700);
+    }
+
+    async function mergeSort(arr, l, r) {
+      if (l >= r) return;
+      const m = Math.floor((l + r) / 2);
+      await mergeSort(arr, l, m);
+      await mergeSort(arr, m + 1, r);
+      await merge(arr, l, m, r);
+    }
+
+    function startMergeSort() {
+      const input = document.getElementById("arrayInput").value.trim();
+      if (!input) return;
+      let arr = input.split(",").map(num => parseInt(num.trim())).filter(n => !isNaN(n));
+      createBars(arr);
+      explanationBox.innerText = "Starting Merge Sort...";
+      setTimeout(() => mergeSort(arr, 0, arr.length - 1), 500);
+    }
+  </script>
+</body>
+</html>

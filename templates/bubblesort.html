@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBP-AV | Bubble Sort</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd70066;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ffd700;
+    }
+    .content {
+      padding: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .left-info {
+      flex: 1;
+      min-width: 300px;
+    }
+    .left-info h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #ffd700;
+    }
+    .left-info p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+    .pseudocode {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-family: monospace;
+      color: #fff;
+      font-size: 15px;
+      border-left: 4px solid #ffd700;
+    }
+    .right-controls {
+      flex: 1;
+      min-width: 300px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .right-controls h2 {
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    .sort-order label {
+      display: block;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+    input#arrayInput {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ffd700;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .array-container {
+      margin-top: 30px;
+      height: 260px;
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .bar {
+      background-color: #ffd700;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-weight: bold;
+      color: #000;
+      position: relative;
+    }
+    .bar span {
+      position: absolute;
+      top: -24px;
+      font-size: 14px;
+      color: #fff;
+    }
+    #explanation {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">  Home  </a>
+      <a href="http://127.0.0.1:5000/visualizer_try">  Visualizers  </a>
+      <a href="http://127.0.0.1:5000/ai_assist">  AI Assist  </a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <div class="left-info">
+      <h1>Bubble Sort</h1>
+      <p><strong>Definition:</strong> Bubble Sort is a simple comparison-based algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.</p>
+      <p><strong>Importance:</strong> While not efficient for large datasets, Bubble Sort helps in understanding sorting principles and debugging. Best case is O(n) if the array is already sorted.</p>
+      <p><strong>Real-life use:</strong><br>
+        1. Educational tools and algorithm learning<br>
+        2. Basic data preprocessing<br>
+        3. Systems with small datasets<br>
+        4. Sorting animations in visualizers</p>
+      
+      <div class="pseudocode">
+        BubbleSort(arr):<br>
+        &nbsp;&nbsp;for i from 0 to n-1:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;for j from 0 to n-i-1:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if arr[j] > arr[j+1]:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap arr[j], arr[j+1]
+      </div>
+    </div>
+
+    <div class="right-controls">
+      <h2>Bubble Sort Visualizer</h2>
+      <div class="sort-order">
+        <label for="arrayInput">Enter numbers (comma-separated):</label>
+        <input type="text" id="arrayInput" placeholder="e.g., 64, 34, 25, 12, 22" />
+        <button onclick="startBubbleSort()">Start Sorting</button>
+      </div>
+      <div class="array-container" id="barContainer"></div>
+      <div id="explanation"></div>
+    </div>
+  </div>
+
+  <!-- Particle Background -->
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 1,
+          dx: Math.random() - 0.5,
+          dy: Math.random() - 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.3)";
+        ctx.fill();
+      }
+      move();
+      connect();
+      requestAnimationFrame(draw);
+    }
+
+    function move() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+
+    function connect() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255,255,255,0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles(80);
+    });
+
+    resize();
+    createParticles(80);
+    draw();
+  </script>
+
+  <!-- Bubble Sort Script -->
+  <script>
+    const barContainer = document.getElementById("barContainer");
+    const explanationBox = document.getElementById("explanation");
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function createBars(arr) {
+      barContainer.innerHTML = "";
+      const maxVal = Math.max(...arr);
+      arr.forEach(val => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = (val / maxVal * 100) + "%";
+        bar.style.width = (100 / arr.length - 2) + "%";
+
+        const label = document.createElement("span");
+        label.innerText = val;
+        bar.appendChild(label);
+
+        barContainer.appendChild(bar);
+      });
+    }
+
+    async function bubbleSort(arr) {
+      let n = arr.length;
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          explanationBox.innerText = `Comparing ${arr[j]} and ${arr[j + 1]}`;
+          await sleep(500);
+          if (arr[j] > arr[j + 1]) {
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            explanationBox.innerText = `Swapping ${arr[j]} and ${arr[j + 1]}`;
+            await sleep(500);
+          }
+          createBars(arr);
+        }
+      }
+      explanationBox.innerText = "Sorting Complete!";
+    }
+
+    function startBubbleSort() {
+      const input = document.getElementById("arrayInput").value.trim();
+      if (!input) return;
+      let arr = input.split(",").map(num => parseInt(num.trim())).filter(n => !isNaN(n));
+      createBars(arr);
+      explanationBox.innerText = "Starting Bubble Sort...";
+      setTimeout(() => bubbleSort(arr), 500);
+    }
+  </script>
+</body>
+</html>

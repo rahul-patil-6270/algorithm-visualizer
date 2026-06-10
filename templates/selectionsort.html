@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KBP-AV | Selection Sort</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo { font-size: 30px; font-weight: 700; color: #ffd700; text-shadow: 0 0 10px #ffd70066; }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a {
+      color: #ccc; text-decoration: none; transition: 0.3s;
+    }
+    .nav-links a:hover { color: #ffd700; }
+
+    .content {
+      padding: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .left-info { flex: 1; min-width: 300px; }
+    .left-info h1 { font-size: 42px; margin-bottom: 20px; color: #ffd700; }
+    .left-info p { font-size: 16px; color: #ccc; margin-bottom: 10px; }
+    .pseudo {
+      background-color: rgba(255,255,255,0.05);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-family: monospace;
+      white-space: pre-line;
+      margin-top: 10px;
+      color: #00ffea;
+    }
+
+    .right-controls {
+      flex: 1;
+      min-width: 300px;
+      background: rgba(255,255,255,0.03);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .right-controls h2 {
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+    input#arrayInput {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ffd700;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .array-container {
+      margin-top: 30px;
+      height: 250px;
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .bar {
+      background-color: #ffd700;
+      border-radius: 4px;
+      text-align: center;
+      position: relative;
+      transition: 0.4s;
+    }
+    .bar span {
+      position: absolute;
+      top: -20px;
+      width: 100%;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    #explanation {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">  Home  </a>
+      <a href="http://127.0.0.1:5000/visualizer_try">  Visualizers  </a>
+      <a href="http://127.0.0.1:5000/ai_assist">  AI Assist  </a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <div class="left-info">
+      <h1>Selection Sort</h1>
+      <p><strong>Definition:</strong> Selection Sort repeatedly finds the minimum element from the unsorted part and puts it at the beginning.</p>
+      <p><strong>Importance:</strong> Simple to understand, suitable for small data sets, but inefficient for large lists (Time Complexity: O(n²)).</p>
+      <p><strong>Real-life use:</strong> Good for teaching sorting concepts, used in embedded systems with very limited memory.</p>
+
+      <p><strong>Algorithm (Pseudocode):</strong></p>
+      <div class="pseudo">
+for i from 0 to n-1:
+    minIndex = i
+    for j from i+1 to n:
+        if arr[j] < arr[minIndex]:
+            minIndex = j
+    swap arr[i] and arr[minIndex]
+      </div>
+    </div>
+
+    <div class="right-controls">
+      <h2>Selection Sort Visualizer</h2>
+      <label for="arrayInput">Enter numbers (comma-separated):</label>
+      <input type="text" id="arrayInput" placeholder="e.g., 5,3,8,4,2" />
+      <button onclick="startSelectionSort()">Start Sorting</button>
+      <div class="array-container" id="barContainer"></div>
+      <div id="explanation"></div>
+    </div>
+  </div>
+
+  <!-- Particle Background -->
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 1,
+          dx: Math.random() - 0.5,
+          dy: Math.random() - 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.3)";
+        ctx.fill();
+      }
+      move();
+      connect();
+      requestAnimationFrame(draw);
+    }
+
+    function move() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+
+    function connect() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255,255,255,0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles(80);
+    });
+
+    resize();
+    createParticles(80);
+    draw();
+  </script>
+
+  <!-- Selection Sort Script -->
+  <script>
+    const barContainer = document.getElementById("barContainer");
+    const explanation = document.getElementById("explanation");
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function createBars(arr) {
+      barContainer.innerHTML = "";
+      const maxVal = Math.max(...arr);
+      arr.forEach(val => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = (val / maxVal * 100) + "%";
+        bar.style.width = (100 / arr.length - 2) + "%";
+        const label = document.createElement("span");
+        label.innerText = val;
+        bar.appendChild(label);
+        barContainer.appendChild(bar);
+      });
+    }
+
+    async function selectionSort(arr) {
+      const n = arr.length;
+      for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        for (let j = i + 1; j < n; j++) {
+          explanation.innerText = `Comparing ${arr[j]} with ${arr[minIdx]}`;
+          await sleep(500);
+          if (arr[j] < arr[minIdx]) {
+            minIdx = j;
+          }
+        }
+        explanation.innerText = `Swapping ${arr[i]} and ${arr[minIdx]}`;
+        await sleep(500);
+        [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+        createBars(arr);
+        await sleep(500);
+      }
+      explanation.innerText = "Sorting Complete!";
+    }
+
+    function startSelectionSort() {
+      const input = document.getElementById("arrayInput").value.trim();
+      if (!input) return;
+      let arr = input.split(",").map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+      createBars(arr);
+      explanation.innerText = "Starting Selection Sort...";
+      setTimeout(() => selectionSort(arr), 500);
+    }
+  </script>
+</body>
+</html>

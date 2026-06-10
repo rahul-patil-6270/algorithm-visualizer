@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('WhatsApp Image 2025-04-22 at 20.39.03_bac0949e.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 30px 40px;
+      width: 320px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: #fff;
+      text-align: left;
+    }
+
+    .form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .form label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+      color: #f0f0f0;
+    }
+
+    .form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .form input::placeholder {
+      color: #ddd;
+    }
+
+    .form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1e3c72;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .form button:hover {
+      background-color: #163361;
+    }
+
+    .form p {
+      text-align: center;
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .form a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+
+    .form a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form">
+    <h2>Login Information</h2>
+    <form action="final_homepage.html" method="get">
+      <label>Name:</label>
+      <input type="text" placeholder="Enter your name" required>
+
+      <label>Email:</label>
+      <input type="email" placeholder="Enter your email" required>
+
+      <label>Phone no:</label>
+      <input type="tel" placeholder="Enter your phone number" required>
+
+      <label>Password </label>
+      <input type="tel" placeholder="Enter your Password" required>
+
+      <button type="submit">Submit</button>
+    </form>
+    <p>Don't have an account? <a href="#">Register</a></p>
+  </div>
+
+</body>
+</html>

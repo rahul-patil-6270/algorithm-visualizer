@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KBP-AI Assistant</title>
+    <style>
+      header {
+        padding: 30px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .logo {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd70066;
+      }
+      .nav-links a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: 500;
+        padding: 6px 10px;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+      }
+      .nav-links a:hover {
+        background-color: #ffd700;
+        color: #000000;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center px-4 py-10">
+  <!-- Top Navigation Bar -->
+  <header class="w-full">
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist">AI Assist</a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <!-- Page Heading -->
+  <h1 class="text-4xl font-bold mb-6 text-cyan-400 mt-6">💬 KBP-AI Assistant</h1>
+
+  <!-- Query Form -->
+  <form method="post" class="w-full max-w-3xl flex gap-4">
+      <input type="text" name="query" placeholder="Ask something..." value="{{ query }}" required
+          class="flex-1 p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+      <button type="submit"
+          class="bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600 transition">Send</button>
+  </form>
+
+  <!-- AI Response -->
+  {% if response %}
+  <div class="w-full max-w-4xl mt-10 bg-gray-800 rounded-lg p-6 overflow-auto shadow-md">
+      <h2 class="text-xl font-semibold text-cyan-300 mb-4">AI Response:</h2>
+      <div class="whitespace-pre-wrap text-white font-mono leading-relaxed">
+        {{ response }}
+      </div>
+  </div>
+{% endif %}
+
+
+</body>
+</html>

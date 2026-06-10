@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doubly Linked List Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .node {
+      display: flex;
+      align-items: center;
+      background-color: #1e293b;
+      color: white;
+      border-radius: 0.5rem;
+      border: 2px solid #fff;
+      margin-right: 20px;
+      font-family: monospace;
+      position: relative;
+    }
+    .box {
+      padding: 10px;
+      min-width: 40px;
+      text-align: center;
+      border-right: 2px solid #fff;
+    }
+    .box:last-child {
+      border-right: none;
+    }
+    .arrow::after {
+      content: ' →';
+      font-size: 24px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    
+    .double-arrow::before {
+      content: '←';
+      font-size: 24px;
+      margin-right: 6px;
+    }
+    .double-arrow::after {
+      content: '→';
+      font-size: 24px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6">
+  <!-- Navbar -->
+  <header class="w-full flex justify-between items-center mb-10">
+    <div class="text-yellow-400 text-3xl font-bold">KBP-AV</div>
+    <nav class="space-x-6 text-lg">
+      <a href="http://127.0.0.1:5000/final_homepage" class="hover:text-yellow-400">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try" class="hover:text-yellow-400">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist" class="hover:text-yellow-400">AI Assist</a>
+    </nav>
+  </header>
+
+  <h1 class="text-3xl font-bold text-cyan-400 mb-6">🔗 Doubly Linked List Visualizer</h1>
+
+  <!-- Input Area -->
+  <div class="mb-6 flex flex-wrap gap-4">
+    <input id="valueInput" type="text" placeholder="Enter value" class="p-3 rounded bg-gray-800 border border-gray-700 w-64">
+    <button onclick="insertNode()" class="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded">Insert at End</button>
+    <input id="deleteValue" type="text" placeholder="Value to Delete" class="p-3 rounded bg-gray-800 border border-gray-700 w-64">
+    <button onclick="deleteNode()" class="bg-red-500 hover:bg-red-600 px-6 py-3 rounded">Delete Node</button>
+  </div>
+
+  <!-- Theory Section -->
+  <div class="bg-gray-800 p-4 rounded mb-6">
+    <h2 class="text-xl text-cyan-300 font-semibold mb-2">📘 What is a Doubly Linked List?</h2>
+    <p class="mb-2">
+      A Doubly Linked List is a type of Linked List where each node contains a reference to both the next and the previous node. This allows traversal in both directions.
+    </p>
+    <pre class="bg-gray-900 p-3 rounded text-sm text-white overflow-x-auto font-mono">
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+    </pre>
+  </div>
+
+  <!-- Visualization Area -->
+  <div id="listContainer" class="flex items-center mb-6 overflow-x-auto"></div>
+
+  <script>
+    let listContainer = document.getElementById('listContainer');
+    let nodes = [];
+
+    function createNodeElement(value) {
+      const node = document.createElement('div');
+      node.className = 'node';
+
+      const prev = document.createElement('div');
+      prev.className = 'box';
+      prev.textContent = '◀';
+
+      const data = document.createElement('div');
+      data.className = 'box';
+      data.textContent = value;
+
+      const next = document.createElement('div');
+      next.className = 'box';
+      next.textContent = '▶';
+
+      node.appendChild(prev);
+      node.appendChild(data);
+      node.appendChild(next);
+
+      return node;
+    }
+
+    function insertNode() {
+      const value = document.getElementById('valueInput').value;
+      if (!value) return;
+
+      const node = createNodeElement(value);
+      listContainer.appendChild(node);
+      if (nodes.length > 0) {
+        const arrow = document.createElement('div');
+        arrow.className = 'double-arrow';
+        listContainer.insertBefore(arrow, node);
+      }
+      nodes.push({ value, element: node });
+      document.getElementById('valueInput').value = '';
+    }
+
+    function deleteNode() {
+      const value = document.getElementById('deleteValue').value;
+      const index = nodes.findIndex(n => n.value === value);
+
+      if (index !== -1) {
+        // Remove visual elements
+        listContainer.removeChild(nodes[index].element);
+        if (index > 0) {
+          listContainer.removeChild(listContainer.children[index * 2 - 1]); // remove arrow
+        }
+        nodes.splice(index, 1);
+      }
+
+      document.getElementById('deleteValue').value = '';
+    }
+  </script>
+</body>
+</html>

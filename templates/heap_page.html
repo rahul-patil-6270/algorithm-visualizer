@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBP-AV | Heap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd70066;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ffd700;
+    }
+    .hero {
+      padding: 80px 30px 30px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #f7971e, #ffd200);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #bbb;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .content-section {
+      padding: 40px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .sort-info {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+    }
+    .sort-info h2 {
+      font-size: 28px;
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+    .sort-info p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+    .array-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .array-container h3 {
+      margin-bottom: 10px;
+      color: #ffd700;
+    }
+    .array {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .array div {
+      padding: 8px 12px;
+      background: #333;
+      border-radius: 8px;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist">AI Assist</a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Heap Visualizer</h1>
+    <p>Understand Heap structure with real-time visualization and interactions.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="sort-info">
+      <h2>About Heap</h2>
+      <p>A heap is a special tree-based data structure that satisfies the heap property. In a max heap, for any given node i, the value of i is greater than or equal to the values of its children. In a min heap, the value of i is less than or equal to its children's values. Heaps are commonly used in priority queues and heap sort algorithms.</p>
+    </div>
+
+    <div class="sort-info">
+      <h2>Heap Sort Algorithm</h2>
+      <p>Heap sort is a comparison-based sorting technique based on a binary heap data structure. It's similar to selection sort where we first find the maximum element and place it at the end. We repeat the same process for the remaining elements.
+      <br><br><strong>Steps:</strong>
+      <br>1. Build a max heap from the input data.
+      <br>2. At this point, the largest item is stored at the root of the heap.
+      <br>3. Replace it with the last item of the heap followed by reducing the size of the heap by one.
+      <br>4. Finally, heapify the root of the tree.
+      <br>5. Repeat step 2 until the heap size is greater than 1.</p>
+    </div>
+
+    <div class="array-container">
+      <h3>Unsorted Array</h3>
+      <div class="array">
+        <div>12</div>
+        <div>11</div>
+        <div>13</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 KBP-AV | All rights reserved.
+  </footer>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 1,
+          dx: Math.random() - 0.5,
+          dy: Math.random() - 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.3)";
+        ctx.fill();
+      }
+      move();
+      connect();
+      requestAnimationFrame(draw);
+    }
+
+    function move() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+
+    function connect() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255,255,255,0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles(80);
+    });
+
+    resize();
+    createParticles(80);
+    draw();
+  </script>
+</body>
+</html>

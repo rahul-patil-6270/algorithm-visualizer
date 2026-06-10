@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Singly Linked List Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .node {
+      display: flex;
+      align-items: center;
+      border: 2px solid #fff;
+      margin-right: 20px;
+      position: relative;
+      background-color: #1e293b;
+      color: white;
+      font-family: monospace;
+      border-radius: 0.5rem;
+    }
+    .node-box {
+      padding: 10px;
+      min-width: 40px;
+      text-align: center;
+      border-right: 2px solid #fff;
+    }
+    .address-box {
+      padding: 10px;
+      min-width: 60px;
+      text-align: center;
+    }
+    .address-label {
+      font-size: 12px;
+      color: #4ade80;
+      position: absolute;
+      bottom: -1.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .arrow::after {
+      content: ' →';
+      font-size: 24px;
+      margin-left: -10px;
+      margin-right: 10px;
+    }
+    .head-label {
+      text-align: center;
+      color: #4ade80;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .null-box {
+      padding: 10px;
+      background-color: #1e293b;
+      color: #4ade80;
+      border: 2px solid #fff;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center mb-8">
+    <div class="text-yellow-400 text-3xl font-bold">KBP-AV</div>
+    <nav class="space-x-4">
+      <a href="http://127.0.0.1:5000/final_homepage" class="hover:text-yellow-400">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try" class="hover:text-yellow-400">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist" class="hover:text-yellow-400">AI Assist</a>
+    </nav>
+  </header>
+
+  <h1 class="text-3xl font-bold text-cyan-400 mb-6">🔗 Singly Linked List Visualizer</h1>
+
+  <!-- Input Section -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input id="valueInput" type="text" placeholder="Enter node value (e.g. 10)" class="p-3 rounded bg-gray-800 border border-gray-700 flex-1 min-w-[220px]">
+    <button onclick="insertNode()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded transition">Insert at End</button>
+
+    <input id="deleteInput" type="text" placeholder="Delete node value" class="p-3 rounded bg-gray-800 border border-gray-700 flex-1 min-w-[220px]">
+    <button onclick="deleteNode()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded transition">Delete</button>
+  </div>
+
+  <!-- Theory Section -->
+  <div class="bg-gray-800 p-4 rounded mb-6">
+    <h2 class="text-xl text-cyan-300 font-semibold mb-2">📘 What is Singly Linked List?</h2>
+    <p class="text-white mb-2">
+      A Singly Linked List is a linear data structure in which each element (node) contains a value and a reference (link) to the next node in the sequence. The last node points to <span class="text-green-400">null</span>.
+    </p>
+    <pre class="bg-gray-900 p-3 rounded text-sm text-white overflow-x-auto font-mono">
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+head = None
+
+# Insert at end
+new_node = Node(data)
+if head is None:
+    head = new_node
+else:
+    temp = head
+    while temp.next:
+        temp = temp.next
+    temp.next = new_node
+    </pre>
+  </div>
+
+  <!-- Visualizer Container -->
+  <div id="listContainer" class="flex items-end mb-6 overflow-x-auto relative"></div>
+
+  <!-- JavaScript -->
+  <script>
+    let listContainer = document.getElementById('listContainer');
+    let addressCounter = 4800;
+    let headDrawn = false;
+
+    function getNextAddress() {
+      let addr = addressCounter;
+      addressCounter += 100;
+      return addr;
+    }
+
+    function insertNode() {
+      const value = document.getElementById('valueInput').value;
+      if (!value) return;
+
+      const node = document.createElement('div');
+      node.className = 'node';
+
+      const dataBox = document.createElement('div');
+      dataBox.className = 'node-box';
+      dataBox.textContent = value;
+
+      const addrBox = document.createElement('div');
+      addrBox.className = 'address-box';
+      const nextAddr = getNextAddress();
+      addrBox.textContent = 'null';
+
+      const addrLabel = document.createElement('div');
+      addrLabel.className = 'address-label';
+      addrLabel.textContent = nextAddr;
+
+      node.appendChild(dataBox);
+      node.appendChild(addrBox);
+      node.appendChild(addrLabel);
+
+      if (!headDrawn) {
+        const headLabel = document.createElement('div');
+        headLabel.className = 'head-label absolute';
+        headLabel.style.top = '-40px';
+        headLabel.style.left = '0';
+        headLabel.innerHTML = `Head<br><span class="text-green-400">${nextAddr}</span>`;
+        listContainer.appendChild(headLabel);
+        headDrawn = true;
+      } else {
+        const prevNodes = listContainer.querySelectorAll('.node');
+        if (prevNodes.length > 0) {
+          const prevAddrBox = prevNodes[prevNodes.length - 1].querySelector('.address-box');
+          prevAddrBox.textContent = nextAddr;
+        }
+
+        const arrow = document.createElement('div');
+        arrow.className = 'arrow';
+        listContainer.appendChild(arrow);
+      }
+
+      listContainer.appendChild(node);
+      document.getElementById('valueInput').value = '';
+    }
+
+    function deleteNode() {
+      const value = document.getElementById('deleteInput').value;
+      if (!value) return;
+
+      const nodes = Array.from(listContainer.querySelectorAll('.node'));
+      const arrows = Array.from(listContainer.querySelectorAll('.arrow'));
+
+      let indexToDelete = -1;
+      for (let i = 0; i < nodes.length; i++) {
+        const data = nodes[i].querySelector('.node-box').textContent;
+        if (data === value) {
+          indexToDelete = i;
+          break;
+        }
+      }
+
+      if (indexToDelete === -1) {
+        alert('❌ Node not found.');
+        return;
+      }
+
+      // Update pointer of previous node
+      if (indexToDelete > 0) {
+        const prevNode = nodes[indexToDelete - 1];
+        const nextAddrLabel = nodes[indexToDelete]?.querySelector('.address-label')?.textContent;
+        prevNode.querySelector('.address-box').textContent = nextAddrLabel || 'null';
+      } else {
+        // If head is being deleted
+        const headLabel = listContainer.querySelector('.head-label');
+        const nextAddr = nodes[1]?.querySelector('.address-label')?.textContent;
+        if (headLabel && nextAddr) {
+          headLabel.innerHTML = `Head<br><span class="text-green-400">${nextAddr}</span>`;
+        } else if (headLabel) {
+          headLabel.remove();
+          headDrawn = false;
+        }
+      }
+
+      // Remove corresponding arrow
+      if (indexToDelete > 0 && arrows.length >= indexToDelete) {
+        arrows[indexToDelete - 1].remove();
+      }
+
+      // Remove the node
+      nodes[indexToDelete].remove();
+      document.getElementById('deleteInput').value = '';
+    }
+  </script>
+
+</body>
+</html>

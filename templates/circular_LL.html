@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Circular Linked List Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .node {
+      display: flex;
+      align-items: center;
+      border: 2px solid #fff;
+      margin-right: 20px;
+      position: relative;
+      background-color: #1e293b;
+      color: white;
+      font-family: monospace;
+      border-radius: 0.5rem;
+    }
+    .node-box {
+      padding: 10px;
+      min-width: 40px;
+      text-align: center;
+      border-right: 2px solid #fff;
+    }
+    .address-box {
+      padding: 10px;
+      min-width: 60px;
+      text-align: center;
+    }
+    .address-label {
+      font-size: 12px;
+      color: #4ade80;
+      position: absolute;
+      bottom: -1.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .arrow::after {
+      content: ' \21ba';
+      font-size: 24px;
+      margin-left: -10px;
+      margin-right: 10px;
+    }
+    .head-label {
+      text-align: center;
+      color: #4ade80;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6">
+  <header class="flex justify-between items-center mb-8">
+    <div class="text-yellow-400 text-3xl font-bold">KBP-AV</div>
+    <nav class="space-x-4">
+      <a href="http://127.0.0.1:5000/final_homepage" class="hover:text-yellow-400">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try" class="hover:text-yellow-400">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist" class="hover:text-yellow-400">AI Assist</a>
+    </nav>
+  </header>
+
+  <h1 class="text-3xl font-bold text-cyan-400 mb-6">🔄 Circular Linked List Visualizer</h1>
+
+  <div class="mb-6 flex gap-4 flex-wrap">
+    <input id="valueInput" type="text" placeholder="Enter node value (e.g. 10)" class="p-3 rounded bg-gray-800 border border-gray-700 w-64">
+    <button onclick="insertNode()" class="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded">Insert at End</button>
+    <button onclick="deleteLastNode()" class="bg-red-500 hover:bg-red-600 px-6 py-3 rounded">Delete Last Node</button>
+  </div>
+
+  <div class="bg-gray-800 p-4 rounded mb-6">
+    <h2 class="text-xl text-cyan-300 font-semibold mb-2">📘 What is Circular Linked List?</h2>
+    <p class="text-white mb-2">
+      A Circular Linked List is a variation of a linked list in which the last node points back to the first node, forming a circle.
+    </p>
+  </div>
+
+  <div id="listContainer" class="flex items-end mb-6 overflow-x-auto relative"></div>
+
+  <script>
+    let listContainer = document.getElementById('listContainer');
+    let addressCounter = 8000;
+    let nodes = [];
+
+    function getNextAddress() {
+      let addr = addressCounter;
+      addressCounter += 100;
+      return addr;
+    }
+
+    function insertNode() {
+      const value = document.getElementById('valueInput').value;
+      if (!value) return;
+
+      const nextAddr = getNextAddress();
+
+      const node = document.createElement('div');
+      node.className = 'node';
+
+      const dataBox = document.createElement('div');
+      dataBox.className = 'node-box';
+      dataBox.textContent = value;
+
+      const addrBox = document.createElement('div');
+      addrBox.className = 'address-box';
+      addrBox.textContent = 'HEAD'; // default for now
+
+      const addrLabel = document.createElement('div');
+      addrLabel.className = 'address-label';
+      addrLabel.textContent = nextAddr;
+
+      node.appendChild(dataBox);
+      node.appendChild(addrBox);
+      node.appendChild(addrLabel);
+
+      if (nodes.length === 0) {
+        const headLabel = document.createElement('div');
+        headLabel.className = 'head-label';
+        headLabel.innerHTML = `Head<br><span class="text-green-400">${nextAddr}</span>`;
+        headLabel.style.position = 'absolute';
+        headLabel.style.left = '5px';
+        headLabel.style.top = '-40px';
+        listContainer.appendChild(headLabel);
+      } else {
+        const prevNode = nodes[nodes.length - 1];
+        const prevAddrBox = prevNode.querySelector('.address-box');
+        prevAddrBox.textContent = nextAddr;
+
+        const arrow = document.createElement('div');
+        arrow.className = 'arrow';
+        listContainer.appendChild(arrow);
+      }
+
+      nodes.push(node);
+      listContainer.appendChild(node);
+
+      // Update last node address to point to head
+      if (nodes.length > 1) {
+        const lastNode = nodes[nodes.length - 1];
+        const lastAddrBox = lastNode.querySelector('.address-box');
+        const firstAddr = nodes[0].querySelector('.address-label').textContent;
+        lastAddrBox.textContent = firstAddr;
+      }
+
+      document.getElementById('valueInput').value = '';
+    }
+
+    function deleteLastNode() {
+      if (nodes.length === 0) return;
+
+      const lastNode = nodes.pop();
+      listContainer.removeChild(lastNode);
+
+      if (nodes.length > 0) {
+        const arrows = listContainer.querySelectorAll('.arrow');
+        if (arrows.length > 0) {
+          listContainer.removeChild(arrows[arrows.length - 1]);
+        }
+
+        const newLast = nodes[nodes.length - 1];
+        const newLastAddrBox = newLast.querySelector('.address-box');
+        const firstAddr = nodes[0].querySelector('.address-label').textContent;
+        newLastAddrBox.textContent = firstAddr;
+      }
+
+      if (nodes.length === 0) {
+        const headLabel = listContainer.querySelector('.head-label');
+        if (headLabel) listContainer.removeChild(headLabel);
+      }
+    }
+  </script>
+</body>
+</html>

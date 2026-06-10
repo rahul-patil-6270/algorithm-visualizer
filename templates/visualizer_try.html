@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualizers</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #27293d);
+      color: white;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd70066;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #ffd700;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .card video {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .card h3 {
+      text-align: center;
+      margin-top: 10px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body><header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist">AI Assist</a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+  <h1>Algorithm Visualizers</h1>
+  <div class="container">
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/bubble%20sort.mp4 
+"></video>
+      <h3>Bubble Sort</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Quick%20sort.mp4"></video>
+      <h3>Quick Sort</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Insertion%20sort.mp4"></video>
+      <h3>Insertion Sort</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/merge%20sort.mp4"></video>
+      <h3>Merge Sort</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/selection%20sort.mp4"></video>
+      <h3>Selection Sort</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Binary%20Search.mp4"></video>
+      <h3>Binary Search</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Linear%20search.mp4"></video>
+      <h3>Linear Search</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Circular%20Linked%20List.mp4"></video>
+      <h3>Circular Linked List</h3>
+    </div>
+    <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
+      <video muted loop src="http://127.0.0.1:5000/static/Doubly%20Linked%20List.mp4"></video>
+      <h3>Doubly Linked List</h3>
+    </div>
+  </div>
+</body>
+</html>

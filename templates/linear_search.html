@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Linear Search Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bar {
+      display: inline-flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 4px;
+      background-color: #38bdf8;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      height: 200px;
+      width: 50px;
+      font-family: monospace;
+    }
+    .bar.highlight {
+      background-color: #facc15 !important;
+    }
+    .bar.found {
+      background-color: #22c55e !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white px-6 py-10 min-h-screen">
+
+  <!-- Navbar -->
+  <header class="w-full flex justify-between items-center mb-8">
+    <div class="text-yellow-400 text-3xl font-bold">KBP-AV</div>
+    <nav class="space-x-4">
+      <a href="http://127.0.0.1:5000/final_homepage" class="hover:text-yellow-400">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try" class="hover:text-yellow-400">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist" class="hover:text-yellow-400">AI Assist</a>
+    </nav>
+  </header>
+
+  <!-- Title -->
+  <h1 class="text-4xl font-bold text-cyan-400 mb-6">🔍 Linear Search Visualizer</h1>
+
+  <!-- Input Section -->
+  <div class="flex flex-wrap gap-4 mb-8">
+    <input id="arrayInput" type="text" placeholder="Enter array (e.g. 5, 10, 15)" class="flex-1 p-3 rounded bg-gray-800 border border-gray-700">
+    <input id="targetInput" type="number" placeholder="Search target" class="w-48 p-3 rounded bg-gray-800 border border-gray-700">
+    <button onclick="startLinearSearch()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded transition">Visualize</button>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Theory Box -->
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-cyan-300 mb-3">📘 What is Linear Search?</h2>
+      <p class="mb-4 text-white">
+        Linear Search is a simple search algorithm that checks each element in the list one by one until the target value is found or the list ends.
+        It works on both sorted and unsorted arrays.
+      </p>
+      <h2 class="text-xl font-bold text-cyan-300 mb-2">🧠 Algorithm:</h2>
+      <pre class="bg-gray-900 text-white p-4 rounded text-sm overflow-x-auto font-mono">
+for i = 0 to n-1:
+    if arr[i] == target:
+        return i
+return -1
+      </pre>
+    </div>
+
+    <!-- Animation and Explanation -->
+    <div>
+      <div id="barContainer" class="flex justify-center items-end h-64 bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4"></div>
+      <div id="explanationBox" class="bg-gray-800 p-5 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-cyan-300 mb-2">Explanation:</h2>
+        <p id="explanation" class="text-white font-mono whitespace-pre-wrap"></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Script -->
+  <script>
+    async function startLinearSearch() {
+      const barContainer = document.getElementById('barContainer');
+      const explanation = document.getElementById('explanation');
+      const arrayInput = document.getElementById('arrayInput').value;
+      const target = parseInt(document.getElementById('targetInput').value);
+
+      const arr = arrayInput.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+      barContainer.innerHTML = '';
+      explanation.textContent = '';
+
+      if (!arr.length || isNaN(target)) {
+        explanation.textContent = '⚠️ Please enter a valid array and target value.';
+        return;
+      }
+
+      const bars = arr.map((val) => {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.textContent = val;
+        barContainer.appendChild(bar);
+        return bar;
+      });
+
+      for (let i = 0; i < arr.length; i++) {
+        bars[i].classList.add('highlight');
+        explanation.textContent = `Step ${i+1}: Compare ${arr[i]} with ${target}`;
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        if (arr[i] === target) {
+          bars[i].classList.remove('highlight');
+          bars[i].classList.add('found');
+          explanation.textContent += `\n✅ Element ${target} found at index ${i}`;
+          return;
+        }
+
+        bars[i].classList.remove('highlight');
+      }
+
+      explanation.textContent = `❌ Element ${target} not found in the array.`;
+    }
+  </script>
+
+</body>
+</html>

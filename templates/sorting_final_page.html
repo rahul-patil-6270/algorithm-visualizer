@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBP-AV | Sorting Visualizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+    header {
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd70066;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ffd700;
+    }
+    .content {
+      padding: 60px;
+      display: flex;
+      gap: 40px;
+    }
+    .left-info {
+      flex: 1;
+    }
+    .left-info h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #ffd700;
+    }
+    .left-info p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+    .sort-methods {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .method-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .method-card:hover {
+      transform: scale(1.05);
+    }
+    .method-card h3 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+    .method-card p {
+      font-size: 14px;
+      color: #bbb;
+    }
+    .right-controls {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .right-controls h2 {
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    .sort-order {
+      margin-bottom: 20px;
+    }
+    .sort-order label {
+      display: block;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+    .array-container {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 18px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <header>
+    <div class="logo">KBP-AV</div>
+    <nav class="nav-links">
+      <a href="http://127.0.0.1:5000/final_homepage">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist">AI Assist</a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <div class="left-info">
+      <h1>Sorting</h1>
+      <p><strong>Definition:</strong> Sorting is the process of arranging data in a particular format or order, usually ascending or descending.</p>
+      <p><strong>Importance:</strong> It enhances the efficiency of searching and data organization in various applications.</p>
+      <p><strong>Real-life use:</strong> Timetables, contact lists, leaderboards, and databases.</p>
+
+      <div class="sort-methods">
+        <div class="method-card">
+          <h3><a href="http://127.0.0.1:5000/bubblesort" style="color: inherit; text-decoration: none;">Bubble Sort</a></h3>
+          <p>Simple comparison-based technique. Suitable for beginners.</p>
+        </div>
+        <div class="method-card">
+          <h3><a href="http://127.0.0.1:5000/selectionsort" style="color: inherit; text-decoration: none;">Selection Sort</a></h3>
+          <p>Divides array into sorted/unsorted and repeatedly selects the minimum.</p>
+        </div>
+        <div class="method-card">
+          <h3><a href="http://127.0.0.1:5000/insertionsort" style="color: inherit; text-decoration: none;">Insertion Sort</a></h3>
+          <p>Builds the final sorted array one item at a time.</p>
+        </div>
+        <div class="method-card">
+          <h3><a href="http://127.0.0.1:5000/mergesort" style="color: inherit; text-decoration: none;">Merge Sort</a></h3>
+          <p>Divide-and-conquer approach, very efficient for large datasets.</p>
+        </div>
+        <div class="method-card">
+          <h3><a href="http://127.0.0.1:5000/quick_sort" style="color: inherit; text-decoration: none;">Quick Sort</a></h3>
+          <p>Highly efficient, in-place divide-and-conquer technique.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-controls">
+      <h2>Sorting Controls</h2>
+
+      <div class="sort-order">
+        <label>
+          <input type="checkbox" id="ascending" checked>
+          Ascending Order
+        </label>
+        <label>
+          <input type="checkbox" id="descending">
+          Descending Order
+        </label>
+      </div>
+
+      <div class="array-container">
+        Unsorted Array: [45, 12, 23, 89, 5, 76]
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle JS Background Script -->
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2 + 1,
+          dx: Math.random() - 0.5,
+          dy: Math.random() - 0.5
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.3)";
+        ctx.fill();
+      }
+      move();
+      connect();
+      requestAnimationFrame(draw);
+    }
+
+    function move() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+
+    function connect() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255,255,255,0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles(80);
+    });
+
+    resize();
+    createParticles(80);
+    draw();
+  </script>
+</body>
+</html>

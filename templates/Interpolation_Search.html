@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interpolation Search Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bar {
+      display: inline-flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 4px;
+      background-color: #4fd1c5;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      height: 200px;
+      width: 50px;
+      font-family: monospace;
+    }
+    .bar.active {
+      background-color: #facc15 !important;
+    }
+    .bar.found {
+      background-color: #22c55e !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen px-6 py-10">
+
+  <!-- Navbar -->
+  <header class="w-full flex justify-between items-center mb-10">
+    <div class="text-yellow-400 text-3xl font-bold">KBP-AV</div>
+    <nav class="space-x-4">
+      <a href="http://127.0.0.1:5000/final_homepage" class="hover:text-yellow-400">Home</a>
+      <a href="http://127.0.0.1:5000/visualizer_try" class="hover:text-yellow-400">Visualizers</a>
+      <a href="http://127.0.0.1:5000/ai_assist" class="hover:text-yellow-400">AI Assist</a>
+    </nav>
+  </header>
+  
+  <!-- Title -->
+  <h1 class="text-4xl font-bold text-cyan-400 mb-6">📈 Interpolation Search Visualizer</h1>
+
+  <!-- Input Area -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input id="arrayInput" type="text" placeholder="Enter sorted array (e.g. 10, 20, 30)" class="flex-1 p-3 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-cyan-500">
+    <input id="targetInput" type="number" placeholder="Search target" class="w-48 p-3 rounded bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-cyan-500">
+    <button onclick="startInterpolationSearch()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded transition">Visualize</button>
+  </div>
+
+  <!-- Theory Section -->
+  <!-- Content Row -->
+<div class="flex flex-col lg:flex-row gap-6 mb-10">
+
+  <!-- Left Column: Theory -->
+  <div class="lg:w-1/2 bg-gray-800 p-5 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold text-cyan-300 mb-3">📘 What is Interpolation Search?</h2>
+    <p class="mb-4 text-white">
+      Interpolation Search is an improved variant of Binary Search. It works better on uniformly distributed arrays by estimating the likely position of the target value using a mathematical formula.
+    </p>
+    <h2 class="text-xl font-bold text-cyan-300 mb-2">🧠 Algorithm:</h2>
+    <pre class="bg-gray-900 text-white p-3 rounded text-sm overflow-x-auto font-mono">
+low = 0, high = n - 1
+while low ≤ high and x ≥ arr[low] and x ≤ arr[high]:
+    pos = low + ((x - arr[low]) * (high - low)) / (arr[high] - arr[low])
+    if arr[pos] == x:
+        return pos
+    elif arr[pos] < x:
+        low = pos + 1
+    else:
+        high = pos - 1
+return -1
+    </pre>
+  </div>
+
+  <!-- Right Column: Animation + Explanation -->
+  <div class="lg:w-1/2 flex flex-col gap-6">
+    <!-- Animation Box -->
+    <div id="barContainer" class="flex justify-center items-end h-64 bg-gray-800 rounded-lg p-4 overflow-x-auto"></div>
+
+    <!-- Explanation Box -->
+    <div id="explanationBox" class="bg-gray-800 p-5 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold text-cyan-300 mb-2">Explanation:</h2>
+      <p id="explanation" class="text-white font-mono whitespace-pre-wrap"></p>
+    </div>
+  </div>
+
+</div>
+
+  <!-- Script -->
+  <script>
+    async function startInterpolationSearch() {
+      const barContainer = document.getElementById('barContainer');
+      const explanation = document.getElementById('explanation');
+      const arrayInput = document.getElementById('arrayInput').value;
+      const target = parseInt(document.getElementById('targetInput').value);
+
+      let arr = arrayInput.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+      arr.sort((a, b) => a - b);  // ensure sorted
+      barContainer.innerHTML = '';
+      explanation.textContent = '';
+
+      if (!arr.length || isNaN(target)) {
+        explanation.textContent = '⚠️ Please enter a valid sorted array and target value.';
+        return;
+      }
+
+      const bars = arr.map((val) => {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.textContent = val;
+        barContainer.appendChild(bar);
+        return bar;
+      });
+
+      let low = 0, high = arr.length - 1, step = 1;
+      while (low <= high && target >= arr[low] && target <= arr[high]) {
+        let pos = low + Math.floor(((target - arr[low]) * (high - low)) / (arr[high] - arr[low]));
+        if (pos < 0 || pos >= arr.length) break;
+
+        for (let bar of bars) bar.classList.remove('active', 'found');
+        bars[pos].classList.add('active');
+
+        explanation.textContent = `Step ${step++}: Estimate position ${pos} → ${arr[pos]}`;
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        if (arr[pos] === target) {
+          bars[pos].classList.remove('active');
+          bars[pos].classList.add('found');
+          explanation.textContent += `\n✅ Element ${target} found at index ${pos}`;
+          return;
+        } else if (arr[pos] < target) {
+          explanation.textContent += `\n${arr[pos]} is less than ${target}, search right side.`;
+          low = pos + 1;
+        } else {
+          explanation.textContent += `\n${arr[pos]} is greater than ${target}, search left side.`;
+          high = pos - 1;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      explanation.textContent = `❌ Element ${target} not found in the array.`;
+    }
+  </script>
+
+</body>
+</html>
