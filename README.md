@@ -6,8 +6,6 @@ KBP-AV is an interactive educational platform designed to help students understa
 The platform combines algorithm theory, step-by-step execution, animated visualizers, and an AI assistant into a single learning environment.
 Interpolation Search
 
-<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119005/Screenshot_2026-06-11_003845_a6o4ui.png" />
-<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119005/Screenshot_2026-06-11_004124_pc5of0.png" />
 
 ---
 
@@ -24,8 +22,6 @@ Interpolation Search
 - Jump Search
 - Exponential Search
 - Interpolation Search
-  
-  <img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119006/Screenshot_2026-06-11_003914_di3e9s.png" />
 
 
 ### Linked List Visualizers
@@ -43,8 +39,6 @@ Interpolation Search
 - Instant algorithm explanations
 - Student learning support
 - Interactive question answering
-
-  <img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119004/Screenshot_2026-06-11_004146_gmr1aq.png" />
 
 
 ### Educational Content
@@ -106,7 +100,7 @@ MySQL Database
 
 ## 1. Homepage
 
-![Homepage](images/homepage.png)
+<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119005/Screenshot_2026-06-11_003845_a6o4ui.png" />
 
 Features:
 - Premium landing page
@@ -119,7 +113,7 @@ Features:
 
 ## 2. Sorting Dashboard
 
-![Sorting](images/sorting-dashboard.png)
+<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119006/Screenshot_2026-06-11_003914_di3e9s.png" />
 
 Features:
 - Sorting controls
@@ -131,7 +125,7 @@ Features:
 
 ## 3. Insertion Sort Visualizer
 
-![Insertion Sort](images/insertion-sort.png)
+<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119005/Screenshot_2026-06-11_004052_wkcdcn.png" />
 
 Features:
 - User input array
@@ -144,7 +138,7 @@ Features:
 
 ## 4. Visualizers Gallery
 
-![Visualizers](images/visualizers-gallery.png)
+<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119005/Screenshot_2026-06-11_004124_pc5of0.png" />
 
 Features:
 - Video preview cards
@@ -157,7 +151,7 @@ Features:
 
 ## 5. KBP AI Assistant
 
-![AI Assistant](images/ai-assistant.png)
+<img width="1898" height="1085" alt="Screenshot 2026-06-11 003845" src="https://res.cloudinary.com/dxxlt5rrr/image/upload/v1781119004/Screenshot_2026-06-11_004146_gmr1aq.png" />
 
 Features:
 - Gemini-powered chatbot
@@ -243,7 +237,7 @@ http://127.0.0.1:5000
 
 # Author
 
-Rahul Patil
+Rahul Patil : 
 Computer Science & Engineering Student
 
 ---
